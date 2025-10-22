@@ -1,6 +1,15 @@
 spring:
   application:
     name: catalog-service
+  config:
+    import: "optional:configserver:" #optional 로 config server 없을 경우 로컬 속성 사용
+  cloud:
+    config:
+      uri: http://localhost:8888
+      request-connect-timeout: 5000
+      request-read-timeout: 5000
+      fail-fast: true
+
 
 server:
   port: 9001
@@ -11,6 +20,7 @@ server:
       max: 50
       min-spare: 5
 
-polar:
+
+polar: # config server 설정 값이 우선되어 무시!
   greeting: Welcome to the local book catalog!
 
