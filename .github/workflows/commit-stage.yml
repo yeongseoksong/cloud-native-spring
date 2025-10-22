@@ -3,7 +3,7 @@ on: push
 
 jobs:
   build:
-    name: Build ANd Test
+    name: Build and Test
     runs-on: ubuntu-22.04
     permissions:
       contents: read
