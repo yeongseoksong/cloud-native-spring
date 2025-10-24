@@ -18,7 +18,7 @@ class CatalogServiceApplicationTests {
     @Test
     void contextLoads() {
 
-        var expected= new Book("1231231231","Title","Author",9.90);
+        var expected= Book.of("1231231231","Title","Author",9.90);
 
         webTestClient.post().uri("/books")
                 .bodyValue(expected)
