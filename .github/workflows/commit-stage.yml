@@ -2,7 +2,7 @@ name: Commit Stage
 on: push
 
 jobs:
-  build:
+  catalog-service-build:
     name: Build and Test
     runs-on: ubuntu-22.04
     permissions:
@@ -19,7 +19,7 @@ jobs:
           cache: gradle
       - name: Build, unit tests and integration tests
         run: |
-          chmod +x gradlew
+          chmod +x ./catalog-service/gradlew
           ./catalog-service/gradlew build
       - name: Code vulnerability scanning
         uses: anchore/scan-action@v3
