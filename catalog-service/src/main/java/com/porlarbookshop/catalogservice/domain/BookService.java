@@ -41,7 +41,10 @@ public class BookService {
                             book.title(),
                             book.author(),
                             book.price(),
-                            existingBook.version());
+                            book.publisher(),
+                            existingBook.version(),
+                            existingBook.createdDate(),
+                            existingBook.lastModifiedDate());
                     return bookRepository.save(bookToUpdate);
                 })
                 .orElseGet(() -> addBookToCatalog(book));
