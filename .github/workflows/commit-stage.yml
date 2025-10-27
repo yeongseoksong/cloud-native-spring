@@ -21,7 +21,7 @@ jobs:
         run: |
           cd ./catalog-service
           chmod +x gradlew
-          gradlew build
+          ./gradlew build
       - name: Code vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
