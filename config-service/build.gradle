@@ -8,6 +8,7 @@ group = 'com.polarbookshop'
 version = '0.0.1-SNAPSHOT'
 description = 'Centralizes the application configuration'
 
+
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(17)
@@ -32,6 +33,19 @@ dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
+}
+
+bootBuildImage{
+    imageName="${project.name}"
+    environment=["BP_JVM_VERSION":"17.*"]
+
+    docker{
+        publishRegistry {
+            username=project.findProperty("registryUsername")
+            password=project.findProperty("registryPassword")
+            url=project.findProperty("registryUrl")
+        }
+    }
 }
 
 tasks.named('test') {
