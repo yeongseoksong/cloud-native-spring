@@ -1,6 +1,18 @@
+server:
+  port: 9001
+  tomcat:
+    connection-timeout: 2s
+    keep-alive-timeout: 15s
+    threads:
+      max: 50
+      min-spare: 5
+  shutdown: graceful
+
 spring:
   application:
     name: catalog-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
   config:
     import: "optional:configserver:" #optional 로 config server 없을 경우 로컬 속성 사용
   cloud:
@@ -35,14 +47,7 @@ management:
         include: refresh
 
 
-server:
-  port: 9001
-  tomcat:
-    connection-timeout: 2s
-    keep-alive-timeout: 15s
-    threads:
-      max: 50
-      min-spare: 5
+
 
 
 polar: # config server 설정 값이 우선되어 무시!
