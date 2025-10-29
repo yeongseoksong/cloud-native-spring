@@ -1,0 +1,2 @@
+include('../config-service/Tiltfile')
+include('../catalog-service/Tiltfile')
