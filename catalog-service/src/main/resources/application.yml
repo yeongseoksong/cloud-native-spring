@@ -50,6 +50,6 @@ management:
 
 
 
-polar: # config server 설정 값이 우선되어 무시!
+polar: # config server 설정 값이 우선되어 무시
   greeting: Welcome to the local book catalog!
 
