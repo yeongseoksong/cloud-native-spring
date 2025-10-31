@@ -1,10 +1,10 @@
-package com.polarbookshop.order_service;
+package com.polarbookshop.edge_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 
-class OrderServiceApplicationTests {
+@SpringBootTest
+class EdgeServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

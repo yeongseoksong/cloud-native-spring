@@ -1,2 +1,3 @@
 include('../config-service/Tiltfile')
 include('../catalog-service/Tiltfile')
+include('../order-service/Tiltfile')
