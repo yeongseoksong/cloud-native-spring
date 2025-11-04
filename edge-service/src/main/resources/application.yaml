@@ -8,6 +8,7 @@ server:
 spring:
   application:
     name: edge-service
+
   lifecycle:
     timeout-per-shutdown-phase: 15s
   cloud:
@@ -42,6 +43,7 @@ spring:
               max-life-time: 60s
 
           default-filters:
+            - SaveSession
             - name: Retry
               args:
                 retries: 3
@@ -60,13 +62,16 @@ spring:
                   replenishRate: 10 # 초당 토큰 충전 수
                   burstCapacity: 20 # 최대 20 요청 허용
                   requestedTokens: 1 # 1요청 토큰 사용량
-
   data:
     redis:
       connect-timeout: 2s
       host: localhost
       port: 6379
       timeout: 1s
+  session:
+    timeout: 10m
+    redis:
+      namespace: polar:edge
 
 
 resilience4j: # netty client response-timeout 보다 높은 우선순위로 동작
