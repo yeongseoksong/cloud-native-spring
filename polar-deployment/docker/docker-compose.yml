@@ -5,8 +5,8 @@ services:
 
   catalog-service:
     depends_on:
+      - polar-keycloak
       - polar-postgres
-      - config-service
     image: "catalog-service"
     container_name: "catalog-service"
     ports:
@@ -16,27 +16,69 @@ services:
       # Buildpacks environment variable to configure the number of threads in memory calculation
       - BPL_JVM_THREAD_COUNT=50
       # Buildpacks environment variable to enable debug through a socket on port 8001
-      - BPL_DEBUG_ENABLED=true # 디버그 허용
-      - BPL_DEBUG_PORT=8001 # 디버그용 포트
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8001
       - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
       - SPRING_DATASOURCE_URL=jdbc:postgresql://polar-postgres:5432/polardb_catalog
       - SPRING_PROFILES_ACTIVE=testdata
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://host.docker.internal:8080/realms/PolarBookshop
+
   order-service:
     depends_on:
+      - polar-keycloak
       - polar-postgres
-      - config-service
+      - polar-rabbitmq
     image: "order-service"
     container_name: "order-service"
     ports:
       - 9002:9002
+      - 8002:8002
     environment:
-      # Buildpacks environment variable to configure the number of threads in memory calculation
-      - BPL_JVM_THREAD_COUNT=50
-      # Buildpacks environment variable to enable debug through a socket on port 8001
+      # Buildpacks environment variable to enable debug through a socket on port 8002
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8002
       - POLAR_CATALOG_SERVICE_URI=http://catalog-service:9001
       - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
-      - SPRING_FLYWAY_URL=jdbc:postgresql://polar-postgres:5432/polardb_order
       - SPRING_R2DBC_URL=r2dbc:postgresql://polar-postgres:5432/polardb_order
+      - SPRING_FLYWAY_URL=jdbc:postgresql://polar-postgres:5432/polardb_order
+      - SPRING_RABBITMQ_HOST=polar-rabbitmq
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=http://host.docker.internal:8080/realms/PolarBookshop
+
+  dispatcher-service:
+    depends_on:
+      - polar-rabbitmq
+    image: "dispatcher-service"
+    container_name: dispatcher-service
+    ports:
+      - 9003:9003
+      - 8003:8003
+    environment:
+      # Buildpacks environment variable to enable debug through a socket on port 8002
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8003
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+      - SPRING_RABBITMQ_HOST=polar-rabbitmq
+
+  edge-service:
+    depends_on:
+      - polar-keycloak
+      - polar-redis
+      - polar-ui
+    image: "edge-service"
+    container_name: "edge-service"
+    ports:
+      - 9000:9000
+      - 8000:8000
+    environment:
+      # Buildpacks environment variable to enable debug through a socket on port 8000
+      - BPL_DEBUG_ENABLED=true
+      - BPL_DEBUG_PORT=8000
+      - CATALOG_SERVICE_URL=http://catalog-service:9001
+      - ORDER_SERVICE_URL=http://order-service:9002
+      - SPA_URL=http://polar-ui:9004
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+      - SPRING_REDIS_HOST=polar-redis
+      - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI=http://host.docker.internal:8080/realms/PolarBookshop
 
   config-service:
     image: "config-service"
@@ -51,6 +93,14 @@ services:
       - BPL_DEBUG_ENABLED=true
       - BPL_DEBUG_PORT=9888
 
+  polar-ui:
+    image: "ghcr.io/polarbookshop/polar-ui:v1"
+    container_name: "polar-ui"
+    ports:
+      - 9004:9004
+    environment:
+      - PORT=9004
+
   # Backing Services
 
   polar-postgres:
@@ -61,18 +111,17 @@ services:
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=1111
-#      - POSTGRES_DB=polardb_catalog
     volumes:
       - ./postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   polar-redis:
-    image: "redis:8.2"
+    image: "redis:7.2"
     container_name: "polar-redis"
     ports:
       - 6379:6379
 
   polar-rabbitmq:
-    image: rabbitmq:3.10-management
+    image: rabbitmq:3.13-management
     container_name: polar-rabbitmq
     ports:
       - 5672:5672
@@ -91,12 +140,3 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=1111
     ports:
       - 8080:8080
-
-  polar-ui:
-    image: "ghcr.io/polarbookshop/polar-ui:v1"
-    container_name: "polar-ui"
-    ports:
-      - 9004:9004
-    environment:
-      - PORT=9004
-

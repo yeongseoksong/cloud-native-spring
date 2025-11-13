@@ -22,7 +22,8 @@ public class UserController {
                 new User(      oidcUser.getPreferredUsername(),
                         oidcUser.getGivenName(),
                         oidcUser.getFamilyName(),
-                        List.of("employee","customer")
+//                        List.of("employee","customer")
+                        oidcUser.getClaimAsStringList("roles")
                         )
         );
 //                ReactiveSecurityContextHolder.getContext()
