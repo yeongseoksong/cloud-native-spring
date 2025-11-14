@@ -53,8 +53,8 @@ bootBuildImage{
     environment=["BP_JVM_VERSION":"17.*"]
 
     docker{
-        host = "unix:///run/user/1000/podman/podman.sock"
-        bindHostToBuilder = true
+//        host = "unix:///run/user/1000/podman/podman.sock"
+//        bindHostToBuilder = true
         publishRegistry {
             username=project.findProperty("registryUsername")
             password=project.findProperty("registryPassword")
