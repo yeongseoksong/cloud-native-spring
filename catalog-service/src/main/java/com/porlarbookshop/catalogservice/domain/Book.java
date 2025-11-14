@@ -4,10 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.Version;
+import org.springframework.data.annotation.*;
 
 import java.time.Instant;
 
@@ -40,11 +37,18 @@ public record Book(
         Instant createdDate,
 
         @LastModifiedDate
-        Instant lastModifiedDate
+        Instant lastModifiedDate,
+
+        @CreatedBy
+        String createdBy,
+
+        @LastModifiedBy
+        String lastModifiedBy
+
 
 ) {
         public static Book of(String isbn, String title, String author, Double price,String publisher) {
-                return new Book(null,isbn,title,author,price,publisher,0,null,null);
+                return new Book(null,isbn,title,author,price,publisher,0,null,null,null,null);
         }
 
 }
