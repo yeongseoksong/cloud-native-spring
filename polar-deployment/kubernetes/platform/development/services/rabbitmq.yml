@@ -7,7 +7,7 @@ metadata:
 data:
   rabbitmq.conf: |
     default_user = user
-    default_pass = 1111
+    default_pass = password
     vm_memory_high_watermark.relative = 1.0
 
 ---

@@ -33,7 +33,7 @@ spec:
             - name: POSTGRES_USER
               value: user
             - name: POSTGRES_PASSWORD
-              value: "1111"
+              value: '1111'
           resources:
             requests:
               cpu: 100m

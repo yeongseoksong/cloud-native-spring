@@ -44,6 +44,17 @@ spring:
           acceptOrder-out-0:
             producer:
               transacted: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
 
   rabbitmq:
     host: localhost

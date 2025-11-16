@@ -105,4 +105,17 @@ logging:
   level:
     io.github.resilience4j: DEBUG
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: readinessState,redis

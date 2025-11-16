@@ -90,4 +90,3 @@ spec:
                 name: polar-keycloak
                 port:
                   number: 80
-
