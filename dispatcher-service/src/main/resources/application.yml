@@ -21,3 +21,14 @@ spring:
         packlabel-out-0:
           destination: order-dispatched
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bindings, configprops, env, functions, health, heapdump, info, loggers, mappings, prometheus
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true

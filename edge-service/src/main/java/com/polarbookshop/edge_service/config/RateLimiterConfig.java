@@ -10,7 +10,6 @@ import java.security.Principal;
 @Configuration
 public class RateLimiterConfig {
 
-
     // 사용자 지정 토큰 저장 버킷
     @Bean
     public KeyResolver keyResolver() {

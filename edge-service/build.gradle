@@ -20,6 +20,8 @@ repositories {
 
 ext {
 	set('springCloudVersion', "2025.0.0")
+    set('otelVersion', "2.4.0")
+
 }
 
 dependencies {
@@ -38,6 +40,11 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    runtimeOnly 'io.github.resilience4j:resilience4j-micrometer'
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    runtimeOnly "io.opentelemetry.javaagent:opentelemetry-javaagent:${otelVersion}"
+
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -48,10 +55,10 @@ dependencyManagement {
 }
 
 bootBuildImage{
-    builder = "docker.io/paketobuildpacks/builder-jammy-base"
+//    builder = "docker.io/paketobuildpacks/builder:base"
 
     imageName="${project.name}"
-    environment=["BP_JVM_VERSION":"17.*"]
+    environment=["BP_JVM_VERSION":"17.*",]
 
     docker{
 //        host = "unix:///run/user/1000/podman/podman.sock"

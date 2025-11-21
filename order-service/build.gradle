@@ -20,6 +20,7 @@ repositories {
 ext {
     set('springCloudVersion', "2025.0.0")
     set('testKeycloakVersion', "3.3.1")
+    set('otelVersion', "2.4.0")
 
 }
 dependencies {
@@ -39,6 +40,9 @@ dependencies {
     runtimeOnly 'org.springframework:spring-jdbc'
     runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'org.postgresql:r2dbc-postgresql'
+    runtimeOnly "io.opentelemetry.javaagent:opentelemetry-javaagent:${otelVersion}"
+
+
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
@@ -50,6 +54,7 @@ dependencies {
 //    testImplementation 'org.springframework.cloud:spring-cloud-stream-test-binder'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation "com.github.dasniko:testcontainers-keycloak:${testKeycloakVersion}"
+
 
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
