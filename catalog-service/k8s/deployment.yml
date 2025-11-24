@@ -6,7 +6,7 @@ metadata:
     app: catalog-service
 
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: catalog-service
@@ -38,14 +38,18 @@ spec:
               value: "true"
             - name: BPL_DEBUG_PORT
               value: "8001"
-            - name: SPRING_CLOUD_CONFIG_URI
-              value: http://config-service
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://polar-postgres/polardb_catalog
+#            - name: SPRING_CLOUD_CONFIG_URI
+#              value: http://config-service
+#            - name: SPRING_DATASOURCE_URL
+#              value: jdbc:postgresql://polar-postgres/polardb_catalog
             - name: SPRING_PROFILES_ACTIVE
               value: testdata
-            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
-              value: http://polar-keycloak/realms/PolarBookshop
+#            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+#              value: http://polar-keycloak/realms/PolarBookshop
+          volumeMounts:
+            - name: catalog-config-volume
+              mountPath: /workspace/config
+
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
@@ -59,3 +63,7 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 15
 
+      volumes:
+        - name: catalog-config-volume
+          configMap:
+            name: catalog-config

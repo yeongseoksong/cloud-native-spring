@@ -14,13 +14,15 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 15s
   config:
-    import: "optional:configserver:" #optional 로 config server 없을 경우 로컬 속성 사용
+    import: ""
+  #    import: "optional:configserver:" #optional 로 config server 없을 경우 로컬 속성 사용
   cloud:
     config:
       uri: http://localhost:8888
       request-connect-timeout: 5000
       request-read-timeout: 5000
-#      fail-fast: true
+      enabled: false
+  #      fail-fast: true
 #      retry:
 #        max-attempts: 6
 #        initial-interval: 1000
