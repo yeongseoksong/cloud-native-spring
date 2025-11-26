@@ -1,0 +1,10 @@
+polar:
+  greeting: Welcome to the local book catalog from a development kubernetes environment!
+spring:
+  datasource:
+    url: jdbc:postgresql://polar-postgres/polardb_catalog
+security:
+  oauth2:
+    resourceserver:
+      jwt:
+        issuer-uri: http://localhost:8080/realms/PolarBookshop
