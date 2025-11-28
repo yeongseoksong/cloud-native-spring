@@ -1,7 +1,8 @@
 name: Commit Stage
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
 
 env:
   REGISTRY: ghcr.io
