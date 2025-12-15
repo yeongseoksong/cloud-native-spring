@@ -19,3 +19,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - run: echo "Running performance tests"
+  security:
+    name: Security Tests
+    if: ${{ github.event.workflow_run.conclusion== 'success'}}
+    runs-on: ubuntu-22.04
+    steps:
+      - run: echo "Running security tests"
